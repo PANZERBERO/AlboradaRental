@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Reporte – Camiones Pluma Tarapacá</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  :root{
+    /* Paleta basada en la landing: fondo oscuro + rojo + grises */
+    --bg:#0b1220;
+    --bg-soft:#11192b;
+    --text:#e8ecf3;
+    --muted:#a6b0bf;
+    --red:#D13232;
+    --red-2:#B32A2A;
+    --grey-1:#202739;
+    --grey-2:#2A3448;
+    --ok:#18B36B;
+    --warn:#F0B429;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:radial-gradient(1200px 900px at 20% -10%, #121a2b 0%, #0b1220 45%, #0b1220 100%);
+    color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif;
+  }
+  .wrap{max-width:1200px;margin:auto;padding:28px}
+  header{
+    display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+    padding:6px 0 20px;border-bottom:1px solid var(--grey-2);
+    animation:fade .6s ease both;
+  }
+  .dot{width:14px;height:14px;border-radius:50%;background:linear-gradient(145deg,var(--red) 0%, #ff5858 100%);
+       box-shadow:0 0 20px #D1323280,0 0 40px #D1323233 inset}
+  h1{margin:0;font-size:28px;font-weight:800;letter-spacing:.2px}
+  .periodo{margin-left:auto;color:var(--muted);font-size:14px}
+  .grid{display:grid;gap:16px;grid-template-columns:repeat(12,1fr)}
+  .card{
+    grid-column:span 12;background:linear-gradient(180deg,var(--bg-soft),#0c1528);
+    border:1px solid var(--grey-2);border-radius:16px;padding:18px;position:relative;overflow:hidden;
+    animation:rise .5s ease both;
+  }
+  @media(min-width:720px){.span-4{grid-column:span 4}.span-6{grid-column:span 6}.span-8{grid-column:span 8}.span-12{grid-column:span 12}}
+  .badge{font-size:12px;color:var(--muted);letter-spacing:.3px;text-transform:uppercase}
+  .kpi{font-size:34px;font-weight:800;margin:6px 0 2px}
+  .sub{color:var(--muted);font-size:13px}
+  h2{margin:0 0 8px;font-size:22px}
+  h3{margin:0 0 6px;font-size:18px}
+  p{margin:6px 0 12px}
+  ul{margin:6px 0 14px 18px}
+  .note{background:#121a2e;border:1px dashed #33405a;border-radius:12px;padding:12px;color:#d7deea}
+  .ok{color:var(--ok)} .warn{color:var(--warn)}
+  .muted{color:var(--muted)}
+  .tag{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border:1px solid var(--grey-2);border-radius:12px;color:var(--muted);font-size:13px}
+  /* tablas */
+  table{width:100%;border-collapse:separate;border-spacing:0 8px}
+  th,td{padding:10px 12px;font-size:14px;border-top:1px solid var(--grey-2);border-bottom:1px solid var(--grey-2)}
+  th{color:#bfc7d5;background:#0f1730;font-weight:600}
+  tr td:first-child,tr th:first-child{border-left:1px solid var(--grey-2);border-top-left-radius:10px;border-bottom-left-radius:10px}
+  tr td:last-child,tr th:last-child{border-right:1px solid var(--grey-2);border-top-right-radius:10px;border-bottom-right-radius:10px}
+  canvas{max-height:300px}
+  /* animaciones */
+  .fade{animation:fade .6s ease both}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="dot"></div>
+    <h1>Reporte · Camiones Pluma Tarapacá</h1>
+    <div class="periodo">Período: <strong>13–20 agosto 2025</strong> · Para <strong>Don Jorge</strong></div>
+  </header>
+
+  <!-- Resumen claro y positivista -->
+  <section class="card">
+    <h2>Resumen simple</h2>
+    <p>
+      En la semana los anuncios se mostraron <strong>196</strong> veces y recibimos <strong>26</strong> visitas a la página.
+      El gasto fue de <strong>CLP&nbsp;46.183</strong>. Cada visita costó en promedio <strong>CLP&nbsp;1.776</strong>.
+      La tasa de clics fue <strong>13,27%</strong>, un valor <span class="ok">alto</span> que confirma buen interés por la oferta.
+    </p>
+    <p class="note">
+      <strong>Nota:</strong> Google Ads marcó “6 conversiones”, pero fueron <u>pruebas internas</u> para validar el flujo.
+      No hubo contactos reales durante estos días.
+    </p>
+    <p class="note">
+      El gasto superó los <strong>CLP 35.000</strong>. Para evitar que siguieran cobros a mi tarjeta personal,
+      <strong>pausé la campaña</strong> y dejamos todo listo para reactivarla con los ajustes.
+    </p>
+  </section>
+
+  <!-- KPIs -->
+  <section class="grid" style="margin-top:10px">
+    <div class="card span-4">
+      <div class="badge">Impresiones</div>
+      <div class="kpi">196</div>
+      <div class="sub">Veces que se mostró el anuncio</div>
+    </div>
+    <div class="card span-4">
+      <div class="badge">Clics</div>
+      <div class="kpi">26</div>
+      <div class="sub">Visitas a la landing</div>
+    </div>
+    <div class="card span-4">
+      <div class="badge">Gasto total</div>
+      <div class="kpi">CLP&nbsp;46.183</div>
+      <div class="sub">Inversión del período</div>
+    </div>
+    <div class="card span-4">
+      <div class="badge">CPC promedio</div>
+      <div class="kpi">CLP&nbsp;1.776</div>
+      <div class="sub">Costo por cada visita</div>
+    </div>
+    <div class="card span-4">
+      <div class="badge">CTR</div>
+      <div class="kpi">13,27%</div>
+      <div class="sub">Porcentaje de personas que hicieron clic</div>
+    </div>
+    <div class="card span-4">
+      <div class="badge">“Conversiones”</div>
+      <div class="kpi">6*</div>
+      <div class="sub">*Pruebas internas, no leads reales</div>
+    </div>
+  </section>
+
+  <!-- Gráficos -->
+  <section class="grid" style="margin-top:8px">
+    <div class="card span-12">
+      <h3>Gasto y clics por día</h3>
+      <p class="muted">Cómo se movió el presupuesto y el interés día a día.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <canvas id="gasto"></canvas>
+        <canvas id="impClicks"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tabla diaria -->
+  <section class="card" style="margin-top:8px">
+    <h3>Detalle por día</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Día</th>
+          <th>Impresiones</th>
+          <th>Clics</th>
+          <th>Costo (CLP)</th>
+          <th>CTR</th>
+          <th>“Conv.”*</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>13-ago</td><td>2</td><td>0</td><td>0</td><td>0%</td><td>0</td></tr>
+        <tr><td>14-ago</td><td>49</td><td>4</td><td>3.203</td><td>8,16%</td><td>0</td></tr>
+        <tr><td>15-ago</td><td>19</td><td>4</td><td>2.743</td><td>21,05%</td><td>0</td></tr>
+        <tr><td>16-ago</td><td>20</td><td>4</td><td>8.861</td><td>20,00%</td><td>0</td></tr>
+        <tr><td>17-ago</td><td>29</td><td>4</td><td>4.719</td><td>13,79%</td><td>6*</td></tr>
+        <tr><td>18-ago</td><td>22</td><td>4</td><td>9.985</td><td>18,18%</td><td>0</td></tr>
+        <tr><td>19-ago</td><td>40</td><td>4</td><td>8.562</td><td>10,00%</td><td>0</td></tr>
+        <tr><td>20-ago</td><td>15</td><td>2</td><td>8.111</td><td>13,33%</td><td>0</td></tr>
+        <tr>
+          <td><strong>Total</strong></td>
+          <td><strong>196</strong></td>
+          <td><strong>26</strong></td>
+          <td><strong>46.183</strong></td>
+          <td><strong>13,27%</strong></td>
+          <td><strong>6*</strong></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="muted">* Corresponden a pruebas internas del formulario (no leads reales).</p>
+  </section>
+
+  <!-- Enfoque positivo + próximos pasos -->
+  <section class="grid" style="margin-top:8px">
+    <div class="card span-6">
+      <h3>Lo que salió <span class="ok">muy bien</span></h3>
+      <ul>
+        <li><strong>Buen interés:</strong> el CTR de <strong>13,27%</strong> es alto; los anuncios llaman la atención correcta.</li>
+        <li><strong>Costo por visita sano:</strong> <strong>CLP 1.776</strong> por clic es adecuado para un servicio especializado.</li>
+        <li><strong>Experiencia ordenada:</strong> el formulario está <em>a pocos scrolls</em> del inicio y el botón de <strong>WhatsApp</strong> se mantiene visible con el desplazamiento.</li>
+      </ul>
+      <div class="tag">✅ Interés validado · Página clara y coherente con la oferta</div>
+    </div>
+
+    <div class="card span-6">
+      <h3>Qué haremos para sumar contactos</h3>
+      <ul>
+        <li><strong>Simplificar el formulario</strong> a 4 campos esenciales:
+          <em>nombre</em>, <em>email</em>, <em>teléfono</em> y <em>modelo de interés</em>. Menos fricción = más envíos.</li>
+        <li><strong>Mensaje principal más directo</strong> en el primer bloque:
+          “<em>Solicita tu cotización ahora</em>”.</li>
+        <li><strong>Revisión de palabras de búsqueda</strong> (agregar excluyentes si aparecen búsquedas que no nos sirven) y <strong>horarios</strong> con mejor respuesta.</li>
+        <li><strong>Seguimiento semanal</strong> de clics y contactos para ajustar rápidamente.</li>
+      </ul>
+      <div class="tag">🧭 Ajustes sencillos y medibles en 1 semana</div>
+    </div>
+  </section>
+
+  <footer class="fade" style="margin:18px 0 60px;color:var(--muted)">
+    <hr style="border:0;border-top:1px solid var(--grey-2);margin:12px 0 18px" />
+    <small>
+      Reporte alineado al estilo de la landing (fondo oscuro, rojo de acción y grises).  
+      Las cifras están simplificadas para lectura rápida por Don Jorge.
+    </small>
+  </footer>
+</div>
+
+<script>
+  // Datos diarios
+  const dias  = ["13-ago","14-ago","15-ago","16-ago","17-ago","18-ago","19-ago","20-ago"];
+  const gasto = [0,3203,2743,8861,4719,9985,8562,8111];
+  const clics = [0,4,4,4,4,4,4,2];
+  const impr  = [2,49,19,20,29,22,40,15];
+
+  const red  = getComputedStyle(document.documentElement).getPropertyValue('--red').trim();
+  const red2 = getComputedStyle(document.documentElement).getPropertyValue('--red-2').trim();
+  const grey = "#AAB4C6";
+
+  // Gasto vs Clics
+  new Chart(document.getElementById('gasto'),{
+    type:'line',
+    data:{
+      labels:dias,
+      datasets:[
+        {
+          label:'Gasto (CLP)',
+          data:gasto,
+          borderColor:red,
+          backgroundColor:'rgba(209,50,50,.15)',
+          tension:.35,fill:true,pointRadius:3,pointHoverRadius:5
+        },
+        {
+          label:'Clics',
+          data:clics,
+          borderColor:grey,
+          backgroundColor:'rgba(170,180,198,.15)',
+          tension:.35,fill:true,yAxisID:'y1',pointRadius:3,pointHoverRadius:5
+        }
+      ]
+    },
+    options:{
+      plugins:{legend:{labels:{color:'#d9e1f2'}}},
+      scales:{
+        y:{ticks:{color:'#c6d0e3'},grid:{color:'#2a3450'}},
+        y1:{position:'right',ticks:{color:'#c6d0e3'},grid:{display:false}},
+        x:{ticks:{color:'#c6d0e3'},grid:{display:false}}
+      }
+    }
+  });
+
+  // Impresiones y Clics
+  new Chart(document.getElementById('impClicks'),{
+    type:'bar',
+    data:{
+      labels:dias,
+      datasets:[
+        {label:'Impresiones',data:impr,backgroundColor:grey},
+        {label:'Clics',data:clics,backgroundColor:red2}
+      ]
+    },
+    options:{
+      plugins:{legend:{labels:{color:'#d9e1f2'}}},
+      scales:{
+        y:{ticks:{color:'#c6d0e3'},grid:{color:'#2a3450'}},
+        x:{ticks:{color:'#c6d0e3'},grid:{display:false}}
+      }
+    }
+  });
+</script>
+</body>
+</html>
